@@ -38,6 +38,7 @@ import platform
 
 import pyblish.api
 from ayon_core.lib import get_formatted_current_time
+from ayon_core.lib.debug import is_debug_enabled
 from ayon_core.pipeline import KnownPublishError
 from ayon_maya.api import lib
 from ayon_maya.api.lib_renderproducts import (
@@ -139,12 +140,13 @@ class CollectMayaRender(plugin.MayaInstancePlugin):
             self.log.warning(
                 "No file names were generated, this is a bug.")
 
-        for render_product in render_products:
-            self.log.debug(render_product)
-        self.log.debug("multipart: {}".format(multipart))
-        self.log.debug("expected files: {}".format(
-            json.dumps(expected_files, indent=4, sort_keys=True)
-        ))
+        if is_debug_enabled():
+            for render_product in render_products:
+                self.log.debug(render_product)
+            self.log.debug("multipart: {}".format(multipart))
+            self.log.debug("expected files: {}".format(
+                json.dumps(expected_files, indent=4, sort_keys=True)
+            ))
 
         # if we want to attach render to product, check if we have AOV's
         # in expectedFiles. If so, raise error as we cannot attach AOV

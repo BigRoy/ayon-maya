@@ -142,9 +142,8 @@ class ExtractCameraMayaScene(plugin.MayaExtractorPlugin,
 
         # get cameras
         members = set(cmds.ls(instance.data['setMembers'], leaf=True,
-                      shapes=True, long=True, dag=True))
-        cameras = set(cmds.ls(members, leaf=True, shapes=True, long=True,
-                      dag=True, type="camera"))
+                      shapes=True, long=True, dag=True, noIntermediate=True))
+        cameras = set(cmds.ls(members, long=True, type="camera"))
 
         # validate required settings
         assert isinstance(step, float), "Step must be a float value"

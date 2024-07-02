@@ -4,13 +4,15 @@ import ayon_maya.api.action
 from ayon_core.pipeline.publish import (
     PublishValidationError,
     ValidatePipelineOrder,
+    OptionalPyblishPluginMixin
 )
 from ayon_maya.api import lib
 from ayon_maya.api import plugin
 from maya import cmds
 
 
-class ValidateNodeIdsUnique(plugin.MayaInstancePlugin):
+class ValidateNodeIdsUnique(plugin.MayaInstancePlugin,
+                            OptionalPyblishPluginMixin):
     """Validate the nodes in the instance have a unique Colorbleed Id
 
     Here we ensure that what has been added to the instance is unique
@@ -20,8 +22,8 @@ class ValidateNodeIdsUnique(plugin.MayaInstancePlugin):
     label = 'Non Duplicate Instance Members (ID)'
     families = ["model",
                 "look",
-                "rig",
-                "yetiRig"]
+                "yetiRig",
+                "yeticache"]
 
     actions = [ayon_maya.api.action.SelectInvalidAction,
                ayon_maya.api.action.GenerateUUIDsOnInvalidAction]
@@ -35,6 +37,8 @@ class ValidateNodeIdsUnique(plugin.MayaInstancePlugin):
 
     def process(self, instance):
         """Process all meshes"""
+        if not self.is_active(instance.data):
+            return
 
         # Ensure all nodes have a cbId
         invalid = self.get_invalid(instance)
@@ -77,3 +81,9 @@ class ValidateNodeIdsUnique(plugin.MayaInstancePlugin):
                 invalid.extend(members)
 
         return invalid
+
+
+class ValidateNodeIdsUniqueRig(ValidateNodeIdsUnique):
+    """Allow to be optional only for rig family"""
+    families = ["rig"]
+    optional = True

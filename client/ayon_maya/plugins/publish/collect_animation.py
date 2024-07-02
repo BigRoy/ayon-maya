@@ -19,7 +19,12 @@ class CollectAnimationOutputGeometry(plugin.MayaInstancePlugin):
     families = ["animation"]
     label = "Collect Animation Output Geometry"
 
-    ignore_type = ["constraints"]
+    ignore_type = ["constraints",
+                   # Ignore deformers
+                   "deformFunc",
+                   "clusterHandle",
+                   "baseLattice",
+                   "lattice"]
 
     def process(self, instance):
         """Collect the hierarchy nodes"""

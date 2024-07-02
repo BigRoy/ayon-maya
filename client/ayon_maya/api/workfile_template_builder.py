@@ -278,7 +278,7 @@ def update_placeholder(*args):
 
     # TODO show UI at least
     if len(placeholder_items) == 0:
-        raise ValueError("No node selected")
+        raise ValueError("No placeholder node selected")
 
     if len(placeholder_items) > 1:
         raise ValueError("Too many selected nodes")

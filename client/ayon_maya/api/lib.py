@@ -1754,6 +1754,10 @@ def get_container_members(container):
         # Assume it's a container dictionary
         container = container["objectName"]
 
+    if "," in container:
+        # Assume it's a UFE path - return it as the only member
+        return [container]
+
     members = cmds.sets(container, query=True) or []
     members = cmds.ls(members, long=True, objectsOnly=True) or []
     all_members = set(members)
@@ -3178,8 +3182,12 @@ def fix_incompatible_containers():
 
 
 def update_content_on_context_change():
-    """
-    This will update scene content to match new folder on context change
+    """Update publish instances to match current context.
+
+    This will update publish instances in the current workfile to match the
+    current folder and task. It will also update any `frameStart` and
+    `frameEnd` attributes to match the current folder entity's attributes.
+
     """
 
     host = registered_host()

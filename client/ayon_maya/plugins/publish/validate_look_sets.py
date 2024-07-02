@@ -50,8 +50,9 @@ class ValidateLookSets(plugin.MayaInstancePlugin):
 
         invalid = self.get_invalid(instance)
         if invalid:
-            raise PublishValidationError("'{}' has invalid look "
-                               "content".format(instance.name))
+            raise PublishValidationError(
+                "'{}' has invalid look content".format(instance.name)
+            )
 
     @classmethod
     def get_invalid(cls, instance):

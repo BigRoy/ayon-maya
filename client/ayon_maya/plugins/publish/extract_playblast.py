@@ -68,7 +68,7 @@ class ExtractPlayblast(plugin.MayaExtractorPlugin):
         for collection in collections:
             filebase = collection.format("{head}").rstrip(".")
             self.log.debug("Checking collection head: %s", filebase)
-            if filebase in path:
+            if filebase in filename:
                 frame_collection = collection
                 self.log.debug(
                     "Found playblast collection: %s", frame_collection

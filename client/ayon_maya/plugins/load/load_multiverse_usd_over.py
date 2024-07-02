@@ -18,7 +18,7 @@ class MultiverseUsdOverLoader(plugin.Loader):
     representations = {"usda", "usd", "udsz"}
 
     label = "Load Usd Override into Compound"
-    order = -10
+    order = -1
     icon = "code-fork"
     color = "orange"
 
@@ -29,6 +29,9 @@ class MultiverseUsdOverLoader(plugin.Loader):
             help="Select which compound to add this as a layer to."
         )
     ]
+
+    # TODO: Set via settings
+    enabled = cmds.pluginInfo("MultiverseForMaya", query=True, loaded=True)
 
     def load(self, context, name=None, namespace=None, options=None):
         current_usd = cmds.ls(selection=True,

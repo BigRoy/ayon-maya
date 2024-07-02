@@ -42,8 +42,8 @@ class ValidateNodeIdsDeformedShape(plugin.MayaInstancePlugin):
         invalid = self.get_invalid(instance)
         if invalid:
             raise PublishValidationError(
-                ("Shapes found that are considered 'Deformed'"
-                 "without object ids: {0}").format(invalid))
+                "Shapes found that are considered 'Deformed'"
+                "without object ids: {0}".format(invalid))
 
     @classmethod
     def get_invalid(cls, instance):
