@@ -85,7 +85,8 @@ class ValidateStripNamespacesUniqueness(plugin.MayaInstancePlugin,
 
     def is_stripping_namespaces(self, instance: pyblish.api.Instance) -> bool:
         """Return whether strip namespaces is enabled or not for the export"""
-
+        # TODO: Preferably we have a less hacky way to find whether
+        #  strip namespaces will be enabled or not for the export
         # The strip namespaces toggle is exposed on these plug-ins for
         # publishing. We check on the instance whether it's enabled/disabled
         # when attribute values are found for the plug-ins.
