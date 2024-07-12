@@ -15,7 +15,7 @@ class ValidateFrameRangeIsValidRange(plugin.MayaInstancePlugin):
     families = ["*"]
     hosts = ["maya"]
     label = "Frame range"
-    order = pyblish.api.ValidatorOrder
+    order = ValidateContentsOrder
 
     def process(self, instance):
         # basic sanity checks
