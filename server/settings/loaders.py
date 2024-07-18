@@ -225,6 +225,10 @@ class LoadersModel(BaseSettingsModel):
         default_factory=YetiRigLoaderModel,
         title="Yeti Rig Loader"
     )
+    OxCacheLoader: LoaderEnabledModel = SettingsField(
+        default_factory=LoaderEnabledModel,
+        title="Ornatrix Cache Loader"
+    )
     OxRigLoader: OxRigLoaderModel = SettingsField(
         default_factory=OxRigLoaderModel,
         title="Ornatrix Rig Loader"
@@ -298,6 +302,7 @@ DEFAULT_LOADERS_SETTING = {
     "VRaySceneLoader": {"enabled": True},
     "XgenLoader": {"enabled": True},
     "YetiCacheLoader": {"enabled": True},
+    "OxCacheLoader": {"enabled": True},
     "YetiRigLoader": {
         "enabled": True,
         "create_cache_instance_on_load": True
