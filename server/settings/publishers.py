@@ -550,7 +550,7 @@ class ExtractMayaUsdPointcacheModel(BaseSettingsModel):
     active: bool = SettingsField(title="Active")
 
 
-class ExtractMayaUsdAnimationModel(BaseSettingsModel):
+class ExtractMayaUsdAnimModel(BaseSettingsModel):
     enabled: bool = SettingsField(title="Enabled")
     optional: bool = SettingsField(title="Optional")
     active: bool = SettingsField(title="Active")
@@ -635,12 +635,12 @@ class PublishersModel(BaseSettingsModel):
         title="Collect Render Layers",
         section="Collectors"
     )
-    CollectFbxAnimation: CollectFbxAnimationModel = SettingsField(
-        default_factory=CollectFbxAnimationModel,
+    CollectFbxAnimation: BasicValidateModel = SettingsField(
+        default_factory=BasicValidateModel,
         title="Collect FBX Animation",
     )
-    CollectFbxCamera: CollectFbxCameraModel = SettingsField(
-        default_factory=CollectFbxCameraModel,
+    CollectFbxCamera: BasicValidateModel = SettingsField(
+        default_factory=BasicValidateModel,
         title="Collect Camera for FBX export",
     )
     CollectFbxModel: BasicValidateModel = SettingsField(
@@ -951,6 +951,10 @@ class PublishersModel(BaseSettingsModel):
         default_factory=BasicValidateModel,
         title="Validate Animation Out Set Related Node Ids",
     )
+    ValidateAnimationProductTypePublish: BasicValidateModel = SettingsField(
+        default_factory=BasicValidateModel,
+        title="Validate Animation Product Type Publish",
+    )
     ValidateRigControllersArnoldAttributes: BasicValidateModel = (
         SettingsField(
             default_factory=BasicValidateModel,
@@ -960,6 +964,10 @@ class PublishersModel(BaseSettingsModel):
     ValidateSingleAssembly: BasicValidateModel = SettingsField(
         default_factory=BasicValidateModel,
         title="Validate Single Assembly",
+    )
+    ValidateAnimatedRigContent: BasicValidateModel = SettingsField(
+        default_factory=BasicValidateModel,
+        title="Validate Animated Rig Content",
     )
     ValidateSkeletalMeshHierarchy: BasicValidateModel = SettingsField(
         default_factory=BasicValidateModel,
@@ -1061,6 +1069,11 @@ class PublishersModel(BaseSettingsModel):
         default_factory=ExtractAlembicModel,
         title="Extract Alembic"
     )
+    ExtractAnimation: BasicValidateModel = SettingsField(
+        default_factory=BasicValidateModel,
+        title="Extract Animation (Alembic)",
+        description="Alembic extractor for loaded rigs"
+    )
     ExtractMayaUsdModel: ExtractMayaUsdModelModel = SettingsField(
         default_factory=ExtractMayaUsdModelModel,
         title="Extract Maya USD with Model"
@@ -1069,8 +1082,8 @@ class PublishersModel(BaseSettingsModel):
         default_factory=ExtractMayaUsdPointcacheModel,
         title="Extract Maya USD with Pointcache"
     )
-    ExtractMayaUsdAnimation: ExtractMayaUsdAnimationModel = SettingsField(
-        default_factory=ExtractMayaUsdAnimationModel,
+    ExtractMayaUsdAnim: ExtractMayaUsdAnimModel = SettingsField(
+        default_factory=ExtractMayaUsdAnimModel,
         title="Extract Maya USD with Animation"
     )
 
@@ -1088,14 +1101,18 @@ DEFAULT_PUBLISH_SETTINGS = {
         "sync_workfile_version": False
     },
     "CollectFbxAnimation": {
-        "enabled": False
+        "enabled": False,
+        "optional": True,
+        "active": True
     },
     "CollectFbxCamera": {
-        "enabled": False
+        "enabled": False,
+        "optional": True,
+        "active": True
     },
     "CollectFbxModel": {
         "enabled": False,
-        "optional": True,
+        "optional": False,
         "active": True
     },
     "CollectGLTF": {
@@ -1505,12 +1522,22 @@ DEFAULT_PUBLISH_SETTINGS = {
         "optional": False,
         "active": True
     },
+    "ValidateAnimationProductTypePublish": {
+        "enabled": True,
+        "optional": False,
+        "active": True
+    },
     "ValidateRigControllersArnoldAttributes": {
         "enabled": True,
         "optional": False,
         "active": True
     },
     "ValidateSingleAssembly": {
+        "enabled": True,
+        "optional": False,
+        "active": True
+    },
+    "ValidateAnimatedRigContent": {
         "enabled": True,
         "optional": False,
         "active": True
@@ -1694,6 +1721,11 @@ DEFAULT_PUBLISH_SETTINGS = {
         "writeUVSets": False,
         "writeVisibility": False
     },
+    "ExtractAnimation": {
+        "enabled": True,
+        "optional": False,
+        "active": True,
+    },
     "ExtractMayaUsdModel": {
         "enabled": True,
         "optional": True,
@@ -1704,7 +1736,7 @@ DEFAULT_PUBLISH_SETTINGS = {
         "optional": True,
         "active": False,
     },
-    "ExtractMayaUsdAnimation": {
+    "ExtractMayaUsdAnim": {
         "enabled": True,
         "optional": True,
         "active": False,
