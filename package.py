@@ -1,8 +1,10 @@
 name = "maya"
 title = "Maya"
-version = "0.2.13-cb.2"
+version = "0.3.1+cb.1"
+app_host_name = "maya"
 client_dir = "ayon_maya"
 
+ayon_server_version = ">=1.1.2"
 ayon_required_addons = {
     "core": ">0.4.0",
 }
