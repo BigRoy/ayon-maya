@@ -64,10 +64,10 @@ def containerise_prim(prim,
     Arguments:
         prim (pxr.Usd.Prim): The prim to containerise.
         name (str): Name to containerize.
-        namespace (str): Name to containerize.
-        context (dict): Name to containerize.
+        namespace (str): Namespace to containerize.
+        context (dict): Load context (incl. representation).
         name (str): Name to containerize.
-        name (str): Name to containerize.
+        loader (str): Loader name.
 
     """
     for key, value in {

@@ -377,7 +377,8 @@ def parse_usd_prim_container(prim, proxy):
 
     """
     data = prim.GetCustomDataByKey("ayon")
-    if not data or not data.get("id") == AYON_CONTAINER_ID:
+    if not data or not data.get("id") in {AVALON_CONTAINER_ID,
+                                          AYON_CONTAINER_ID}:
         return
 
     # Store transient data
@@ -446,7 +447,11 @@ def ls_maya_usd_proxy_prims():
         if usd_proxies:
             import mayaUsd.ufe
             for proxy in usd_proxies:
-                stage = mayaUsd.ufe.getStage('|world' + proxy)
+                stage = mayaUsd.ufe.getStage(proxy)
+                if not stage:
+                    log.warning(f"Unable to get USD stage from: {proxy}")
+                    continue
+
                 for prim in stage.TraverseAll():
                     container = parse_usd_prim_container(prim, proxy=proxy)
                     if container:
