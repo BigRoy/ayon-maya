@@ -153,6 +153,7 @@ class ValidateClashingSiblingNames(plugin.MayaInstancePlugin,
                 if strip_namespaces is not None:
                     if strip_namespaces:
                         return True
+                    # Do not fall back to default
                     continue
 
                 # Find some default on the plugin class, if any
