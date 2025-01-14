@@ -150,8 +150,10 @@ class ValidateClashingSiblingNames(plugin.MayaInstancePlugin,
                 publish_attributes = instance.data["publish_attributes"]
                 strip_namespaces = publish_attributes.get(
                     plugin_name, {}).get("stripNamespaces")
-                if strip_namespaces:
-                    return True
+                if strip_namespaces is not None:
+                    if strip_namespaces:
+                        return True
+                    continue
 
                 # Find some default on the plugin class, if any
                 default = getattr(plugin, "stripNamespaces", False)
