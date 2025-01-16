@@ -38,6 +38,18 @@ class ValidateNodeNamesASCII(plugin.MayaInstancePlugin,
             name = node.rsplit("|", 1)[-1]
             if not name.isascii():
                 cls.log.warning(f"Invalid node name: {name}")
+
+                # We only mark the node invalid if is an editable node and
+                # the user can actually do something about it.
+                if cmds.referenceQuery(node, isNodeReferenced=True):
+                    cls.log.debug(
+                        f"Node is referenced, skipping: {name}")
+                    continue
+                if cmds.lockNode(node, query=True, lock=True)[0]:
+                    cls.log.debug(
+                        f"Node is locked, skipping: {name}")
+                    continue
+
                 invalid.append(node)
 
         return invalid
