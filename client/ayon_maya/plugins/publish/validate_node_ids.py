@@ -1,7 +1,7 @@
 from ayon_core.pipeline.publish import (
     ValidatePipelineOrder,
     PublishXmlValidationError,
-    OpenPypePyblishPluginMixin
+    AYONPyblishPluginMixin
 )
 import ayon_maya.api.action
 from ayon_maya.api import lib
@@ -9,7 +9,7 @@ from ayon_maya.api import plugin
 
 
 class ValidateNodeIDs(plugin.MayaInstancePlugin,
-                      OpenPypePyblishPluginMixin):
+                      AYONPyblishPluginMixin):
     """Validate nodes have a Colorbleed Id.
 
     When IDs are missing from nodes *save your scene* and they should be
