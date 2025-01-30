@@ -4,19 +4,23 @@ import pyblish.api
 
 import ayon_maya.api.action
 from ayon_core.pipeline.publish import (
-    PublishValidationError
+    PublishValidationError,
+    OptionalPyblishPluginMixin
 )
 from ayon_maya.api import plugin
 
 from maya import cmds
 
 
-class ValidateMeshPolyCheck(plugin.MayaInstancePlugin):
+class ValidateMeshPolyCheck(plugin.MayaInstancePlugin,
+                            OptionalPyblishPluginMixin):
     """Validate mesh for errors using `maya.cmds.polyCheck`"""
 
     order = pyblish.api.ValidatorOrder
     families = ["model", "pointcache", "animation"]
     label = "Mesh Check"
+    optional = True
+
     actions = [
         ayon_maya.api.action.SelectInvalidAction
     ]
@@ -27,6 +31,9 @@ class ValidateMeshPolyCheck(plugin.MayaInstancePlugin):
         return [mesh for mesh in meshes if cmds.polyCheck(mesh)]
 
     def process(self, instance):
+        if not self.is_active(instance.data):
+            return
+
         invalid = self.get_invalid(instance)
         if invalid:
             raise PublishValidationError(
