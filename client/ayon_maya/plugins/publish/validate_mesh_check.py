@@ -20,6 +20,16 @@ class ValidateMeshPolyCheck(plugin.MayaInstancePlugin,
     families = ["model", "pointcache", "animation"]
     label = "Mesh Check"
     optional = True
+    optional_tooltip = (
+        "Validate a mesh for internal errors."
+        "\n\n"
+        "This validation may be slow to run on large meshes or scenes and can "
+        "then be disabled.\nOtherwise it's best to leave it on since it "
+        "captures some hard to find errors that may generate issues later on."
+        "\n\n"
+        "For example, there were cases where upon exporting a mesh to Alembic "
+        "it would lose its UVs, due to some 'hidden' errors in the mesh."
+    )
 
     actions = [
         ayon_maya.api.action.SelectInvalidAction
