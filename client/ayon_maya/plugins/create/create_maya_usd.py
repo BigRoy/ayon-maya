@@ -242,3 +242,44 @@ class CreateMayaUsd(plugin.MayaCreator):
             cmds.select(root, replace=True, noExpand=True)
 
         super().create(product_name, instance_data, pre_create_data)
+
+
+class CreateMayaUsdModel(CreateMayaUsd):
+    identifier = "io.ayon.creators.maya.mayausd.model"
+    label = "Model (USD)"
+    product_type = "model"
+
+    def get_publish_families(self):
+        return ["model", "usd", "mayaUsd"]
+
+    def get_pre_create_attr_defs(self):
+        """Set default value for createAssetTemplateHierarchy to True."""
+        attr_defs = super().get_pre_create_attr_defs()
+        for attr_def in attr_defs:
+            if attr_def.key == "createAssetTemplateHierarchy":
+                attr_def.default = True
+        return attr_defs
+
+    def get_attr_defs_for_instance(self, instance):
+        attr_defs = super().get_attr_defs_for_instance(instance)
+        if not attr_defs:
+            return attr_defs
+
+        # Hide animation related attributes because a model should be static
+        # We do still 'include' them, but hidden, just so that other plug-ins
+        # expecting that data to be present still receive them.
+        hide_keys = {
+            "exportAnimationData",
+            "frameStart",
+            "frameEnd",
+            "handleStart",
+            "handleEnd",
+            "step"
+        }
+        for attr_def in attr_defs:
+            if attr_def.key in hide_keys:
+                attr_def.hidden = True
+            if attr_def.key == "exportAnimationData":
+                attr_def.default = False
+
+        return attr_defs
