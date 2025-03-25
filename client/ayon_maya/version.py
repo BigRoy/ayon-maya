@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
 """Package declaring AYON addon 'maya' version."""
-__version__ = "0.4.4+cb.2"
+__version__ = "0.4.6+cb.1"
