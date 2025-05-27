@@ -26,7 +26,7 @@ class RedshiftProxyLoader(plugin.Loader):
     extensions = {"rs", "usd", "usda", "usdc", "abc"}
 
     label = "Import Redshift Proxy"
-    order = -10
+    order = -9
     icon = "code-fork"
     color = "orange"
 

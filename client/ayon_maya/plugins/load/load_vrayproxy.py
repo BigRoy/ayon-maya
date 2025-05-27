@@ -24,7 +24,7 @@ class VRayProxyLoader(plugin.Loader):
     representations = {"vrmesh", "abc"}
 
     label = "Import VRay Proxy"
-    order = -10
+    order = -9
     icon = "code-fork"
     color = "orange"
 
