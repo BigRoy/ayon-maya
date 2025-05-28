@@ -56,7 +56,7 @@ class MayaSettings(BaseSettingsModel):
     imageio: ImageIOSettings = SettingsField(
         default_factory=ImageIOSettings, title="Color Management (imageio)")
     mel_workspace: str = SettingsField(
-        title="Maya MEL Workspace", widget="textarea"
+        title="Maya MEL Workspace", widget="textarea", syntax="mel",
     )
     ext_mapping: list[ExtMappingItemModel] = SettingsField(
         default_factory=list, title="Extension Mapping")

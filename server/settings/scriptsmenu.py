@@ -44,7 +44,7 @@ class ScriptsmenuModel(BaseSettingsModel):
         description="Scriptmenu Items Definition"
     )
     definition_json: str = SettingsField(
-        "[]", title="Menu Definition JSON", widget="textarea",
+        "[]", title="Menu Definition JSON", widget="textarea", syntax="json",
         description=(
             "Define the custom tools menu using a JSON list. "
             "For more details on the JSON format, see "

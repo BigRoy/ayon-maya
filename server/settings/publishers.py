@@ -121,6 +121,7 @@ class ValidateTransformNamingSuffixModel(BaseSettingsModel):
         "{}",
         title="Suffix Naming Tables",
         widget="textarea",
+        syntax="json",
         description=(
             "Validates transform suffix based on"
             " the type of its children shapes."
@@ -214,7 +215,7 @@ class ValidateShaderNameModel(BaseSettingsModel):
 class ValidateAttributesModel(BaseSettingsModel):
     enabled: bool = SettingsField(title="ValidateAttributes")
     attributes: str = SettingsField(
-        "{}", title="Attributes", widget="textarea")
+        "{}", title="Attributes", widget="textarea", syntax="json")
 
     @validator("attributes")
     def validate_json(cls, value):
@@ -569,7 +570,7 @@ class ExtractCameraAlembicModel(BaseSettingsModel):
     optional: bool = SettingsField(title="Optional")
     active: bool = SettingsField(title="Active")
     bake_attributes: str = SettingsField(
-        "[]", title="Bake Attributes", widget="textarea",
+        "[]", title="Bake Attributes", widget="textarea", syntax="json",
         description="List of attributes that will be included in the alembic "
                     "camera export. Needs to be written as a JSON list.",
     )
