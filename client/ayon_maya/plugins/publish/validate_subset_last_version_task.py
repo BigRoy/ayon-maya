@@ -1,5 +1,8 @@
+from __future__ import annotations
 import re
+import inspect
 from collections import defaultdict
+from typing import Optional
 
 import pyblish.api
 
@@ -58,15 +61,13 @@ class ValidateSubsetsLastVersionTask(pyblish.api.InstancePlugin,
 
         message = (
             "Last version of {} > {} was published "
-            "from another task: {}. (current task: {})\n"
-            "If you are sure this is what you want then you can disable "
-            "the validator."
+            "from another task:\n- {} (current task: {})\n"
             "".format(folder_path, product_name, last_task, task)
         )
         raise PublishValidationError(
             title="Publish from different task",
             message=message,
-            description=message
+            description=self.get_description()
         )
 
     def populate_cache(self, context):
@@ -116,7 +117,7 @@ class ValidateSubsetsLastVersionTask(pyblish.api.InstancePlugin,
             versions_by_product_id.get(product["id"]) for product in products
         }
 
-    def get_last_task_for_instance(self, instance):
+    def get_last_task_for_instance(self, instance) -> Optional[str]:
         """Return task name of the last matching folder>product instance"""
 
         if self.cache is None:
@@ -124,7 +125,7 @@ class ValidateSubsetsLastVersionTask(pyblish.api.InstancePlugin,
 
         if not self.cache:
             # No relevant data at all (no existing products or versions)
-            return
+            return None
 
         folder_id = instance.data["folderEntity"]["id"]
         product_name = instance.data["productName"]
@@ -133,16 +134,45 @@ class ValidateSubsetsLastVersionTask(pyblish.api.InstancePlugin,
         )
         if version is None:
             self.log.debug("No existing version for {}".format(product_name))
-            return
+            return None
 
         # Since source task is not published along with the data we just
         # assume the task name from the root file path it was published from
         source = version.get("attrib", {}).get("source")
         if source is None:
-            return
+            return None
 
         # Assume workfile path matches /work/{task}/
         pattern = "/work/([^/]+)/"
         match = re.search(pattern, source)
         if match:
             return match.group(1)
+        return None
+
+    def get_description(self):
+        return inspect.cleandoc("""### Match task last publish
+
+        If a particular product (e.g. "pointcacheEnv") previously
+        came from a different task this will raise an error to avoid 
+        accidentally overwriting publishes from another task.
+        
+        #### Disabling the validator
+    
+        You can disable the **Match task last published version** validator 
+        if you are certain you want to publish into the existing product from
+        your current task.
+        
+        #### Re-enabling the validator after publish (recommended)
+        
+        After you've published it's recommended to re-enable the validation,
+        and "save" the changed value. 
+        
+        The good thing about having it re-enabled is that if someone else 
+        started publishing into this product from somewhere else again, then 
+        you'll get the warning again, allowing you to investigate who may be 
+        responsible and why that's the case.
+        
+        *Once you have published a new version then the new version's task 
+        matches your current task and thus the you can safely re-enable the 
+        validation.*
+        """)
