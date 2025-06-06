@@ -17,16 +17,16 @@ from ayon_core.pipeline.publish import (
 )
 
 
-class ValidateSubsetsLastVersionTask(pyblish.api.InstancePlugin,
+class ValidateProductLastVersionTask(pyblish.api.InstancePlugin,
                                      OptionalPyblishPluginMixin):
     """Validate if current publish matches last version's task.
 
-    If a particular subset (e.g. "pointcacheEnv") for an asset previously came
+    If a particular product (e.g. "pointcacheEnv") for an asset previously came
     from a different task this will raise an error to avoid accidentally
     overwriting publishes from another task.
 
     You can disable the validator if you are certain you want to publish
-    into the existing subsets. Once you have published a new version then
+    into the existing products. Once you have published a new version then
     the new version's task matches your current task and thus the next time
     this will not invalidate.
 
