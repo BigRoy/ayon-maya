@@ -35,7 +35,7 @@ class ValidateProductLastVersionTask(pyblish.api.InstancePlugin,
     order = pyblish.api.ValidatorOrder
     label = 'Match task last published version'
     hosts = ['maya']
-    families = ["animation", "pointcache"]
+    families = ["animation", "pointcache", "renderlayer"]
     optional = True
 
     # Cache shared between all instances
